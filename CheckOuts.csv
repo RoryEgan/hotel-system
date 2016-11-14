@@ -1,0 +1,2 @@
+number,type,name,nights,rooms,deposit,reservation-date-and-time,checkin-date-and-time,checkout-date-and-time
+1231,simple,test name,2,1,100,12-11-2016 10:57,12-11-2016 04:38,14-11-2016 07:04
