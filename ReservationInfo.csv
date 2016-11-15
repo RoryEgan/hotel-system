@@ -1,5 +1,6 @@
 number,type,name,nights,rooms,deposit,reservation-date-and-time
 1231,simple,test name,2,1,100,14-11-2016 10:57
 1283,advanced,test name,2,1,100,12-11-2016 10:57
-1282,simple,test name,2,1,100,12-11-2016 10:57
-1288,simple,test name,2,1,100,01-10-2016 10:57
+1231,simple,aname,3,2,1,15-11-2016 06:36
+1111,simple,testname,2,1,100,15-11-2016 06:43
+2,simple,,,,,15-11-2016 07:04

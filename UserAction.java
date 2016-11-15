@@ -1,26 +1,23 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 public class UserAction {
 
-  private ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
-  private ReservationReader reader = new ReservationReader("ReservationInfo.csv");
-  private Scanner in = new Scanner(System.in);
+  private GeneralUtility utility = new GeneralUtility();
 
   public void purgeSystem() {
 
+    ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
-    String currentDate = convertDateToString(date);
+    String currentDate = utility.convertDateToString(date);
     String index;
     double days;
     Date reservationDate;
     ArrayList<Reservation> reservationInfo = reader.getReservationInfo();
 
     for(int i = 1; i < reservationInfo.size(); i++) {
-      reservationDate = convertStringToDate(reservationInfo.get(i).getDate());
+      reservationDate = utility.convertStringToDate(reservationInfo.get(i).getDate());
       days = ((date.getTime() - reservationDate.getTime()) / (1000 * 60 * 60 * 24));
       if(days > 31) {
         reader.purgeReservations(i);
@@ -35,9 +32,10 @@ public class UserAction {
 
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = convertDateToString(date);
+    String stringDate = utility.convertDateToString(date);
+    boolean matchesDesired = true;
 
-    String number = checkNumber();
+    String number = utility.checkNumber(matchesDesired);
 
     checkInWriter.write(number, stringDate);
 
@@ -48,9 +46,10 @@ public class UserAction {
     CheckOutWriter checkOutWriter = new CheckOutWriter("CheckOuts.csv");
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = convertDateToString(date);
+    String stringDate = utility.convertDateToString(date);
+    boolean matchesDesired = true;
 
-    String number = checkNumber();
+    String number = utility.checkNumber(matchesDesired);
 
     checkOutWriter.write(number, stringDate);
     checkInWriter.deleteLine(number);
@@ -61,9 +60,12 @@ public class UserAction {
 
     Hotel hotel;
     Reservation newReservation;
+    ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = convertDateToString(date);
+    String stringDate = utility.convertDateToString(date);
     String choice, name, nights, rooms, deposit, type="";
+    Scanner in = new Scanner(System.in);
+    boolean matchesDesired = true;
     int input;
 
     System.out.print("Is this a Simple or Advanced purchase booking? \n1. Simple \n2. Advanced\nPlease enter: ");
@@ -82,7 +84,7 @@ public class UserAction {
     "\nPlease enter your selection: ");
     hotel = new Hotel(in.nextLine());
 
-    String number = checkNumber();
+    String number = utility.checkNumber(matchesDesired);
 
     System.out.print("Enter reservation name: ");
     name = in.nextLine();
@@ -102,13 +104,16 @@ public class UserAction {
 
   public void makeCancellation() {
 
+    ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = convertDateToString(date);
+    String stringDate = utility.convertDateToString(date);
     String choice, name, nights, rooms, deposit;
+    Scanner in = new Scanner(System.in);
+    boolean matchesDesired = true;
 
-    String number = checkNumber();
+    String number = utility.checkNumber(matchesDesired);
 
-    Date reservationDate = convertStringToDate(reader.getDate(number));
+    Date reservationDate = utility.convertStringToDate(reader.getDate(number));
     double hours = (date.getTime() - reservationDate.getTime()) / 1000 / 60 / 60;
 
     if(reader.checkType(number).equals("advanced")) {
@@ -124,46 +129,4 @@ public class UserAction {
     }
 
   }
-
-  public Date convertStringToDate(String date) {
-
-    Date aDate = new Date();
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-
-    try {
-      aDate = (Date)dateFormat.parse(date);
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-
-    return aDate;
-
-  }
-
-  public String convertDateToString(Date date) {
-
-    String strFormat;
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-    strFormat =  dateFormat.format(date);
-
-    return strFormat;
-
-  }
-
-  public String checkNumber() {
-
-    String number;
-    int index;
-    System.out.print("Enter the number of the reservation: ");
-    number = in.nextLine();
-    while(((index = reader.checkNumber(number)) == -1)) {
-      System.out.print("Number is invalid. Please try again: ");
-      number = in.nextLine();
-    }
-
-    return number;
-
-  }
-
 }
