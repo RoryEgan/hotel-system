@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 public class HotelReader {
 
   private String fileName;
@@ -45,8 +48,11 @@ public class HotelReader {
         info.add(new Hotel(lineSplit[0]));
       }
     }
-    catch(IOException e) {
+    catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");
+    }
+    catch(Exception e) {
+      e.printStackTrace();
     }
 
     return info;

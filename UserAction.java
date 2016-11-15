@@ -1,53 +1,58 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
-import java.io.*;
 public class UserAction {
 
   private ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
   private ReservationReader reader = new ReservationReader("ReservationInfo.csv");
   private Scanner in = new Scanner(System.in);
 
-  public void checkIn() {
+  public void purgeSystem() {
 
-    Reservation newReservation;
-    CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
     String currentDate = convertDateToString(date);
-    String number;
-    int index;
+    String index;
+    double days;
+    Date reservationDate;
+    ArrayList<Reservation> reservationInfo = reader.getReservationInfo();
 
-    System.out.print("Please enter the reservation number you are checking in: ");
-    number = in.nextLine();
-    while(((index = reader.checkNumber(number)) == -1)) {
-      System.out.print("Number does not exist. Please try again: ");
-      number = in.nextLine();
+    for(int i = 1; i < reservationInfo.size(); i++) {
+      reservationDate = convertStringToDate(reservationInfo.get(i).getDate());
+      days = ((date.getTime() - reservationDate.getTime()) / (1000 * 60 * 60 * 24));
+      if(days > 31) {
+        reader.purgeReservations(i);
+      }
     }
 
-    checkInWriter.write(number, currentDate);
+    System.out.println("\nSystem is up to date.");
+
+  }
+
+  public void checkIn() {
+
+    CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
+    Date date = Calendar.getInstance().getTime();
+    String stringDate = convertDateToString(date);
+
+    String number = checkNumber();
+
+    checkInWriter.write(number, stringDate);
 
   }
 
   public void checkOut() {
 
-    Reservation newReservation;
     CheckOutWriter checkOutWriter = new CheckOutWriter("CheckOuts.csv");
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
-    String currentDate = convertDateToString(date);
-    String number;
-    int index;
+    String stringDate = convertDateToString(date);
 
-    System.out.print("Please enter the reservation number you are checking out: ");
-    number = in.nextLine();
-    while(((index = reader.checkNumber(number)) == -1)) {
-      System.out.print("Number does not exist. Please try again: ");
-      number = in.nextLine();
-    }
+    String number = checkNumber();
 
-    checkOutWriter.write(number, currentDate);
+    checkOutWriter.write(number, stringDate);
     checkInWriter.deleteLine(number);
 
   }
@@ -57,9 +62,9 @@ public class UserAction {
     Hotel hotel;
     Reservation newReservation;
     Date date = Calendar.getInstance().getTime();
-    String currentDate = convertDateToString(date);
-    String choice, number, name, nights, rooms, deposit, type="";
-    int index, input;
+    String stringDate = convertDateToString(date);
+    String choice, name, nights, rooms, deposit, type="";
+    int input;
 
     System.out.print("Is this a Simple or Advanced purchase booking? \n1. Simple \n2. Advanced\nPlease enter: ");
     input = in.nextInt();
@@ -77,13 +82,7 @@ public class UserAction {
     "\nPlease enter your selection: ");
     hotel = new Hotel(in.nextLine());
 
-    System.out.print("Enter reservation number: ");
-    number = in.nextLine();
-
-    while(((index = reader.checkNumber(number)) != -1)) {
-      System.out.print("Reservation number already exists. Please try again: ");
-      number = in.nextLine();
-    }
+    String number = checkNumber();
 
     System.out.print("Enter reservation name: ");
     name = in.nextLine();
@@ -97,23 +96,17 @@ public class UserAction {
     System.out.print("Enter the deposit: ");
     deposit = in.nextLine();
 
-    newReservation = new Reservation(number, type, name, nights, rooms, deposit, currentDate);
-    writer.write(number, type, name, nights, rooms, deposit, currentDate);
+    newReservation = new Reservation(number, type, name, nights, rooms, deposit, stringDate);
+    writer.write(number, type, name, nights, rooms, deposit, stringDate);
   }
 
   public void makeCancellation() {
 
-    int index;
     Date date = Calendar.getInstance().getTime();
-    String currentDate = convertDateToString(date);
-    String choice, number, name, nights, rooms, deposit;
+    String stringDate = convertDateToString(date);
+    String choice, name, nights, rooms, deposit;
 
-    System.out.print("Enter the number of the reservation you wish to cancel: ");
-    number = in.nextLine();
-    while(((index = reader.checkNumber(number)) == -1)) {
-      System.out.print("Number does not exist. Please try again: ");
-      number = in.nextLine();
-    }
+    String number = checkNumber();
 
     Date reservationDate = convertStringToDate(reader.getDate(number));
     double hours = (date.getTime() - reservationDate.getTime()) / 1000 / 60 / 60;
@@ -123,7 +116,7 @@ public class UserAction {
     }
     else {
       if(hours > 48) {
-        reader.deleteLine(number, currentDate);
+        reader.cancelReservation (number, stringDate);
       }
       else {
         System.out.print("Reservations cannot be cancelled less than 48 hours before arrival.");
@@ -155,6 +148,21 @@ public class UserAction {
     strFormat =  dateFormat.format(date);
 
     return strFormat;
+
+  }
+
+  public String checkNumber() {
+
+    String number;
+    int index;
+    System.out.print("Enter the number of the reservation: ");
+    number = in.nextLine();
+    while(((index = reader.checkNumber(number)) == -1)) {
+      System.out.print("Number is invalid. Please try again: ");
+      number = in.nextLine();
+    }
+
+    return number;
 
   }
 

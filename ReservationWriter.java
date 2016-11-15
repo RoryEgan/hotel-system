@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Date;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 public class ReservationWriter {
 
   private String fileName;

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 public class RoomReader {
 
   private String fileName;
@@ -37,13 +37,16 @@ public class RoomReader {
 
       String [] lineSplit;
 
-      while(fileIn.hasNext()) {
-        lineSplit = fileIn.nextLine().split(",");
-        info.add(new Room(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3]));
-      }
+      //while(fileIn.hasNext()) {
+        //lineSplit = fileIn.nextLine().split(",");
+      //  info.add(new Room(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3]));
+      //}
     }
-    catch(IOException e) {
+    catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");
+    }
+    catch(Exception e) {
+      e.printStackTrace();
     }
 
     return info;

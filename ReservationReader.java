@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 public class ReservationReader {
 
   private String fileName;
@@ -52,7 +55,7 @@ public class ReservationReader {
 
   }
 
-  public void deleteLine(String number, String cancelDate) {
+  public void cancelReservation(String number, String cancelDate) {
 
     try {
 
@@ -90,6 +93,39 @@ public class ReservationReader {
     catch(Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void purgeReservations(int number) {
+
+    try {
+
+      File reservations = new File(fileName);
+      File tmp = File.createTempFile("tmp", "");
+
+      Scanner fileIn = new Scanner(reservations);
+      BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tmp, true));
+      String [] lineSplit;
+      int index = 1;
+
+      while(fileIn.hasNext() && index < reservationInfo.size()) {
+        lineSplit = fileIn.nextLine().split(",");
+        if(lineSplit[0] != reservationInfo.get(index).getNumber()) {
+          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]);
+          tempWriter.newLine();
+          index++;
+        }
+      }
+      tempWriter.close();
+      if(reservations.delete())
+      tmp.renameTo(reservations);
+    }
+    catch(FileNotFoundException e) {
+      System.out.println("Error: File could not be found.");
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+
   }
 
   public String getDate(String number) {

@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 public class CheckInWriter {
 
   private String fileName;

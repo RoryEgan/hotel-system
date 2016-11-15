@@ -87,7 +87,8 @@ public class Menu {
 
     System.out.print("\nWould you like to: \n1: make a reservation \n2: make a cancellation" +
     "\n3: check a customer in \n4: check a customer out \n5: apply a booking discount" +
-    "\n6: get data analysis \n7: exit to main menu \nPlease enter your selection: ");
+    "\n6: get data analysis \n7: purge system of old reservations \n8: exit to main menu" +
+    "\nPlease enter your selection: ");
 
     if(in.hasNextInt()) {
       input = in.nextInt();
@@ -118,6 +119,11 @@ public class Menu {
         System.out.println("Data analysis selected.");
       }
       else if(input == 7) {
+        System.out.println("System purge selected.");
+        actions.purgeSystem();
+        supervisorMenu();
+      }
+      else if(input == 8) {
         System.out.println("Returning to main menu.");
         mainMenu();
       }
