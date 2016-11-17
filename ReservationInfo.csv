@@ -1,2 +1,6 @@
 number,hotel,type,name,nights,rooms,deposit,reservation-date-and-time
-1151,4-star,simple,,2,2,100,17-11-2016 05:08
+1154,5-star,simple,test reservation,2,1,100,17-11-2016 06:13
+5572,4-star,advanced,test reservation 2,3,2,150,17-11-2016 06:14
+1151,4-star,advanced,a name,5,1,100,17-11-2016 07:15
+1573,4-star,advanced,mclovin,2,1,100,17-11-2016 07:22
+2573,3-star,simple,mcmuffin,3,1,200,17-11-2016 07:25

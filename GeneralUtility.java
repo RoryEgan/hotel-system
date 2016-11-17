@@ -55,12 +55,13 @@ public class GeneralUtility {
       System.out.print("Input is invalid. Please try again: ");
       number = in.nextLine();
     }
-    if(matchesDesired = false) {
+    if(!matchesDesired) {
       while(((index = reader.checkNumber(number)) == -1)) {
         System.out.print("Number is invalid. Please try again: ");
         number = in.nextLine();
       }
     }
+    
 
     return number;
 

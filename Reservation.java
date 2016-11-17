@@ -1,6 +1,3 @@
-import java.util.GregorianCalendar;
-import java.util.Calendar;
-import java.util.Date;
 public class Reservation {
 
   private String number;

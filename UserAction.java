@@ -116,4 +116,16 @@ public class UserAction {
     }
 
   }
+
+  public void applyDiscount() {
+
+    System.out.print("Discount selected.");
+
+  }
+
+  public void getDataAnalysis() {
+
+    System.out.print("Data analysis selected.");
+    
+  }
 }

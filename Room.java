@@ -8,4 +8,10 @@ public class Room {
     rates = roomCosts;
   }
 
+  public double[] getRates() {
+
+    return rates;
+
+  }
+
 }

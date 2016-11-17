@@ -9,10 +9,8 @@ public class Menu {
     System.out.print("\n****************************" +
     "\n*** Welcome to L4 Hotels ***" +
     "\n****************************\n");
-    System.out.print("\nPress enter to continue to login screen or press any other key to quit: ");
 
-    if(in.nextLine().equals(""))
-      getUser();
+    getUser();
   }
 
   public void getUser() {
@@ -20,12 +18,7 @@ public class Menu {
     User currentUser = getCurrentUser();
     String type = currentUser.getUserType();
 
-    if(type.equals("customer"))
-      customerMenu();
-    else if(type.equals("hotel desk employee"))
-      employeeMenu();
-    else if(type.equals("supervisor"))
-      supervisorMenu();
+    userMenu(type);
 
   }
 
@@ -81,124 +74,53 @@ public class Menu {
 
   }
 
-  public void supervisorMenu() {
+  public void userMenu(String type) {
 
-    int input;
+    GeneralUtility utility = new GeneralUtility();
+    String input;
 
-    System.out.print("\nWould you like to: \n1: make a reservation \n2: make a cancellation" +
-    "\n3: check a customer in \n4: check a customer out \n5: apply a booking discount" +
-    "\n6: get data analysis \n7: purge system of old reservations \n8: exit to main menu" +
-    "\nPlease enter your selection: ");
+    System.out.print("\nWould you like to: \n1. exit to main menu \n2. make a reservation \n3. make a cancellation");
+    if(type.equals("hotel desk employee") || type.equals("supervisor"))
+    System.out.print("\n4. check a customer in \n5. check a customer out");
+    if(type.equals("supervisor"))
+    System.out.print("\n6. apply a booking discount \n7. get data analysis \n8. purge old reservations");
+    System.out.print("\nPlease enter your selection: ");
+    input = in.nextLine();
 
-    if(in.hasNextInt()) {
-      input = in.nextInt();
-      if(input == 1) {
-        System.out.println("Reservation selected.");
-        actions.makeReservation();
-        supervisorMenu();
-      }
-      else if(input == 2) {
-        System.out.println("Cancellation selected.");
-        actions.makeCancellation();
-        supervisorMenu();
-      }
-      else if(input == 3) {
-        System.out.println("Checkin selected.");
-        actions.checkIn();
-        supervisorMenu();
-      }
-      else if(input == 4) {
-        System.out.println("Checkout selected.");
-        actions.checkOut();
-        supervisorMenu();
-      }
-      else if(input == 5) {
-        System.out.println("Discount selected.");
-      }
-      else if(input == 6) {
-        System.out.println("Data analysis selected.");
-      }
-      else if(input == 7) {
-        System.out.println("System purge selected.");
-        actions.purgeSystem();
-        supervisorMenu();
-      }
-      else if(input == 8) {
-        System.out.println("Returning to main menu.");
-        mainMenu();
-      }
-      else {
-        System.out.println("Invalid input, please try again.");
-      }
+    if(input.equals("1")) {
+      System.out.print("Returning to main menu...");
+      mainMenu();
     }
+    else if(input.equals("2")) {
+      actions.makeReservation();
+      userMenu(type);
+    }
+    else if(input.equals("3")) {
+      actions.makeCancellation();
+      userMenu(type);
+    }
+    else if(input.equals("4") && !type.equals("customer")) {
+      actions.checkIn();
+      userMenu(type);
+    }
+    else if(input.equals("5") && !type.equals("customer")) {
+      actions.checkOut();
+      userMenu(type);
+    }
+    else if(input.equals("6") && type.equals("supervisor")) {
+      actions.applyDiscount();
+      userMenu(type);
+    }
+    else if(input.equals("7") && type.equals("supervisor")) {
+      actions.getDataAnalysis();
+      userMenu(type);
+    }
+    else if(input.equals("8") && type.equals("supervisor")) {
+      actions.purgeSystem();
+      userMenu(type);
+    }
+    else
+      System.out.print("Invalid input.");
   }
 
-  public void employeeMenu() {
-
-    int input;
-
-    System.out.print("\nWould you like to: \n1: make a reservation \n2: make a cancellation" +
-    "\n3: check a customer in \n4: check a customer out \n5: exit to main menu \nPlease enter your selection: ");
-
-    if(in.hasNextInt()) {
-      input = in.nextInt();
-      if(input == 1) {
-        System.out.println("Reservation selected.");
-        actions.makeReservation();
-        employeeMenu();
-      }
-      else if(input == 2) {
-        System.out.println("Cancellation selected.");
-        actions.makeCancellation();
-        employeeMenu();
-      }
-      else if(input == 3) {
-        System.out.println("Checkin selected.");
-        actions.checkIn();
-        employeeMenu();
-      }
-      else if(input == 4) {
-        System.out.println("Checkout selected.");
-        actions.checkOut();
-        employeeMenu();
-      }
-      else if(input == 5) {
-        System.out.println("Returning to main menu.");
-        mainMenu();
-      }
-      else {
-        System.out.println("Invalid input, please try again.");
-      }
-    }
-
-  }
-
-  public void customerMenu() {
-
-    int input;
-
-    System.out.print("Would you like to: \n1: make a reservation \n2: make a cancellation \n3: exit to main menu" +
-    "\nPlease enter your selection: ");
-
-    if(in.hasNextInt()) {
-      input = in.nextInt();
-      if(input == 1) {
-        System.out.println("Reservation selected.");
-        actions.makeReservation();
-        customerMenu();
-      }
-      else if(input == 2) {
-        System.out.println("Cancellation selected.");
-        actions.makeCancellation();
-        customerMenu();
-      }
-      else if(input == 3) {
-        System.out.println("Returning to main menu.");
-        mainMenu();
-      }
-      else {
-        System.out.println("Invalid input, please try again.");
-      }
-    }
-  }
 }

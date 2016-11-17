@@ -23,4 +23,10 @@ public class RoomType {
     return numRooms;
 
   }
+
+  public ArrayList<Room> getRooms() {
+
+    return rooms;
+    
+  }
 }

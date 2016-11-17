@@ -1,2 +1,2 @@
 number,hotel,type,name,nights,rooms,deposit,reservation-date-and-time,checkin-date-and-time,checkout-date-and-time
-1151,4-star,simple,,2,2,100,17-11-2016 05:08,17-11-2016 05:10,17-11-2016 05:10
+1154,5-star,simple,test reservation,2,1,100,17-11-2016 06:13,17-11-2016 06:15,17-11-2016 06:15
