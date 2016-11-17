@@ -33,7 +33,7 @@ public class Menu {
   public User checkUserId(UserReader reader) {
 
     String id;
-    int index;
+    int index = 0;
 
     System.out.print("\nPlease enter your user id: ");
     id = in.nextLine();
@@ -120,7 +120,7 @@ public class Menu {
       userMenu(type);
     }
     else
-      System.out.print("Invalid input.");
+    System.out.print("Invalid input.");
   }
 
 }

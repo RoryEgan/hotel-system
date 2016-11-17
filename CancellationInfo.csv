@@ -1,1 +1,2 @@
-number,hotel,type,name,nights,rooms,deposit,reservation-date-and-time,cancellation-date-and-time
+number,hotel,type,name,nights,rooms,deposit,reservation-date,cancellation-date
+1111,4-star,simple,daawwve,2,1,100,28-12-2016,17-11-2016

@@ -60,8 +60,7 @@ public class UserAction {
 
     Reservation newReservation;
     ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
-    Date date = Calendar.getInstance().getTime();
-    String stringDate = utility.convertDateToString(date);
+    String stringDate;// = utility.convertDateToString(date);
     String choice, name, nights, rooms, deposit;
     Scanner in = new Scanner(System.in);
     boolean matchesDesired = true;
@@ -73,8 +72,24 @@ public class UserAction {
 
     String number = utility.checkNumber(matchesDesired);
 
-    System.out.print("Enter reservation name: ");
+    System.out.print("Enter your name: ");
     name = in.nextLine();
+
+    System.out.print("Enter start date of reservation(dd-MM-yyyy): ");
+    stringDate = in.nextLine();
+
+    while(!utility.validateDate(stringDate)) {
+      System.out.print("Invalid date format, try again: ");
+      stringDate = in.nextLine();
+    }
+
+    Date date = utility.convertStringToDate(stringDate);
+
+    while(utility.checkIfBefore(date)) {
+      System.out.print("Date must be after current date, try again: ");
+      stringDate = in.nextLine();
+      date = utility.convertStringToDate(stringDate);
+    }
 
     System.out.print("Enter number of nights: ");
     nights = in.nextLine();
@@ -106,26 +121,26 @@ public class UserAction {
     if(reader.checkType(number).equals("advanced")) {
       System.out.print("Advanced purchase reservations are non-refundable.");
     }
-    else {
-      if(hours > 48) {
-        reader.cancelReservation (number, stringDate);
-      }
-      else {
-        System.out.print("Reservations cannot be cancelled less than 48 hours before arrival.");
-      }
-    }
-
-  }
-
-  public void applyDiscount() {
-
-    System.out.print("Discount selected.");
-
-  }
-
-  public void getDataAnalysis() {
-
-    System.out.print("Data analysis selected.");
     
+    if(hours < 48) {
+      reader.cancelReservation (number, stringDate);
+    }
+    else {
+      System.out.print("Reservations cannot be cancelled less than 48 hours before arrival.");
+    }
   }
+
+}
+
+public void applyDiscount() {
+
+  System.out.print("Discount selected.");
+
+}
+
+public void getDataAnalysis() {
+
+  System.out.print("Data analysis selected.");
+
+}
 }

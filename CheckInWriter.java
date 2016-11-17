@@ -37,7 +37,7 @@ public class CheckInWriter {
         if(lineSplit[0].equals(number)) {
           bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]+"," + currentDate);
           bufferedWriter.newLine();
-          System.out.println("Info saved.");
+          System.out.println("\nInfo saved.");
         }
       }
       bufferedWriter.close();
