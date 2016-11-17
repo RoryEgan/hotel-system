@@ -7,18 +7,12 @@ import java.io.FileNotFoundException;
 public class HotelReader {
 
   private String fileName;
-  private ArrayList<Hotel> hotels;
+  private ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 
   HotelReader(String fileName) {
 
     this.fileName = fileName;
-    hotels = readIn(fileName);
-
-  }
-
-  public String getFileName() {
-
-    return fileName;
+    readIn(fileName);
 
   }
 
@@ -28,24 +22,25 @@ public class HotelReader {
 
   }
 
-  private ArrayList<Hotel> readIn(String fileName) {
-
-    ArrayList<Hotel> info = new ArrayList<Hotel>();
+  private void readIn(String fileName) {
 
     try {
 
-      File userFile = new File(fileName);
-      Scanner fileIn = new Scanner(userFile);
-
-      File checker = new File("checkerfile.csv");
-      BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(checker, true));
-
+      File hotelFile = new File(fileName);
+      Scanner fileIn = new Scanner(hotelFile);
+      int numHotels = 0;
+      ArrayList<String> info = getInfo(fileIn);
+      double [] roomCosts = new double[7];
       String [] lineSplit;
 
-      while(fileIn.hasNext()) {
-        lineSplit = fileIn.nextLine().split(",");
-        bufferedWriter.write(lineSplit[0]);
-        info.add(new Hotel(lineSplit[0]));
+      for(int i = 0; i < info.size(); i++) {
+        lineSplit = info.get(i).split(",");
+        roomCosts = getRoomCosts(lineSplit);
+        if(!lineSplit[0].equals("")) {
+          hotels.add(new Hotel(lineSplit[0]));
+          numHotels++;
+        }
+        hotels.get(numHotels - 1).addRoomType(new RoomType(lineSplit[1], Integer.parseInt(lineSplit[2]), lineSplit[3], lineSplit[4], roomCosts));
       }
     }
     catch(FileNotFoundException e) {
@@ -55,7 +50,25 @@ public class HotelReader {
       e.printStackTrace();
     }
 
-    return info;
+  }
+
+  private double[] getRoomCosts(String [] lineSplit) {
+
+    double [] roomCosts = new double[7];
+    for(int i = 0, j = 5; i < roomCosts.length; i++ , j++) {
+      roomCosts[i] = Double.parseDouble(lineSplit[j]);
+    }
+    return roomCosts;
 
   }
+
+  private ArrayList<String> getInfo(Scanner fileIn) {
+
+    ArrayList<String> fileInfo = new ArrayList<String>();
+    while(fileIn.hasNext()) {
+      fileInfo.add(fileIn.nextLine());
+    }
+    return fileInfo;
+  }
+
 }

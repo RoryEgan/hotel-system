@@ -58,31 +58,18 @@ public class UserAction {
 
   public void makeReservation() {
 
-    Hotel hotel;
     Reservation newReservation;
     ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
     String stringDate = utility.convertDateToString(date);
-    String choice, name, nights, rooms, deposit, type="";
+    String choice, name, nights, rooms, deposit;
     Scanner in = new Scanner(System.in);
     boolean matchesDesired = true;
     int input;
 
-    System.out.print("Is this a Simple or Advanced purchase booking? \n1. Simple \n2. Advanced\nPlease enter: ");
-    input = in.nextInt();
-    if(input == 1) {
-      type = "simple";
-    }
-    else if(input == 2) {
-      type = "advanced";
-    }
-    else {
-      System.out.println("Invalid input.");
-    }
+    String hotel = utility.getHotel();
 
-    System.out.print("Select a hotel: \n1. 5 Star \n2. 4 Star \n3. 3 Star" +
-    "\nPlease enter your selection: ");
-    hotel = new Hotel(in.nextLine());
+    String type = utility.getType();
 
     String number = utility.checkNumber(matchesDesired);
 
@@ -98,8 +85,8 @@ public class UserAction {
     System.out.print("Enter the deposit: ");
     deposit = in.nextLine();
 
-    newReservation = new Reservation(number, type, name, nights, rooms, deposit, stringDate);
-    writer.write(number, type, name, nights, rooms, deposit, stringDate);
+    newReservation = new Reservation(number, hotel, type, name, nights, rooms, deposit, stringDate);
+    writer.write(number, hotel, type, name, nights, rooms, deposit, stringDate);
   }
 
   public void makeCancellation() {

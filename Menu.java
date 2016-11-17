@@ -11,7 +11,7 @@ public class Menu {
     "\n****************************\n");
     System.out.print("\nPress enter to continue to login screen or press any other key to quit: ");
 
-    if(in.nextLine().isEmpty())
+    if(in.nextLine().equals(""))
       getUser();
   }
 

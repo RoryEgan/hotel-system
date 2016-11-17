@@ -41,7 +41,7 @@ public class ReservationReader {
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
-        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6]));
+        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6], lineSplit[7]));
       }
     }
     catch(FileNotFoundException e) {
@@ -74,11 +74,11 @@ public class ReservationReader {
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
         if(!lineSplit[0].equals(number)) {
-          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]);
+          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[6]);
           tempWriter.newLine();
         }
         else {
-          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + cancelDate);
+          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]+"," + cancelDate);
           bufferedWriter.newLine();
         }
       }
@@ -110,7 +110,7 @@ public class ReservationReader {
       while(fileIn.hasNext() && index < reservationInfo.size()) {
         lineSplit = fileIn.nextLine().split(",");
         if(lineSplit[0] != reservationInfo.get(index).getNumber()) {
-          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]);
+          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
           tempWriter.newLine();
           index++;
         }

@@ -20,14 +20,14 @@ public class ReservationWriter {
 
   }
 
-  public void write(String number, String type, String name, String nights, String rooms, String deposit, String currentDate) {
+  public void write(String number, String hotel, String type, String name, String nights, String rooms, String deposit, String currentDate) {
 
     try {
 
       File myFile = new File(fileName);
       BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true));
 
-      bufferedWriter.write(number+"," + type+"," + name+"," + nights+"," + rooms+"," + deposit+"," + currentDate);
+      bufferedWriter.write(number+"," + hotel+"," + type+"," + name+"," + nights+"," + rooms+"," + deposit+"," + currentDate);
       bufferedWriter.newLine();
       bufferedWriter.close();
       System.out.println("Info saved.");

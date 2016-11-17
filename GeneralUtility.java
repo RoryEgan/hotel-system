@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 public class GeneralUtility {
 
   private String numeric = "\\d+";
@@ -63,6 +64,43 @@ public class GeneralUtility {
 
     return number;
 
+  }
+
+  public String getHotel() {
+
+    HotelReader hreader = new HotelReader("l4Hotels.csv");
+    ArrayList<Hotel> hotels = hreader.getHotelInfo();
+    Scanner in = new Scanner(System.in);
+    int input;
+
+    System.out.print("Please select a hotel choice: ");
+    for(int i = 0; i < hotels.size(); i++) {
+      System.out.print("\n" + i + ". " + hotels.get(i).getType());
+    }
+    System.out.print("\nEnter your choice: ");
+    input = in.nextInt();
+    return hotels.get(input).getType();
+
+  }
+
+  public String getType() {
+
+    Scanner in = new Scanner(System.in);
+    int input;
+    String type = "";
+
+    System.out.print("Is this a Simple or Advanced purchase booking? \n1. Simple \n2. Advanced\nPlease enter: ");
+    input = in.nextInt();
+    if(input == 1) {
+      type = "simple";
+    }
+    else if(input == 2) {
+      type = "advanced";
+    }
+    else {
+      System.out.println("Invalid input.");
+    }
+    return type;
   }
 
 }

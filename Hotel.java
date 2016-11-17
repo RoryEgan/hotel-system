@@ -1,18 +1,30 @@
 import java.util.ArrayList;
 public class Hotel {
 
-  private ArrayList<Room> rooms;
-  private String name;
+  private String type;
+  private ArrayList<RoomType> roomTypes = new ArrayList<RoomType>();
 
-  Hotel(String name) {
+  Hotel(String type) {
 
-    this.name  = name;
+    this.type  = type;
 
   }
 
-  public ArrayList<Room> getRooms(ArrayList<Room> rooms) {
+  public String getType() {
 
-    return rooms;
+    return type;
+
+  }
+
+  public ArrayList<Room> getRoomTypes(ArrayList<Room> roomTypes) {
+
+    return roomTypes;
+
+  }
+
+  public void addRoomType(RoomType newRoom) {
+
+    roomTypes.add(newRoom);
 
   }
 }
