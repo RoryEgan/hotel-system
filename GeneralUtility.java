@@ -1,64 +1,17 @@
 import java.util.Scanner;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
 import java.util.ArrayList;
 public class GeneralUtility {
 
   private String numeric = "\\d+";
+  private ArrayList<RoomType> roomTypes = new ArrayList<RoomType>();
+  private ArrayList<String> roomList = new ArrayList<String>();
 
   public boolean validateNumeric(String number) {
 
     if(number.matches(numeric))
-      return true;
+    return true;
     else
-      return false;
-
-  }
-
-  public Date convertStringToDate(String date) {
-
-    Date aDate = new Date();
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-    try {
-      aDate = (Date)dateFormat.parse(date);
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-
-    return aDate;
-
-  }
-
-  public boolean checkIfBefore(Date date) {
-
-    Date currentDate = Calendar.getInstance().getTime();
-
-    if(date.before(currentDate))
-      return true;
-
-    else return false;
-  }
-
-  public boolean validateDate(String date) {
-
-    String pattern = "([0-9]{2})-([0-9]{2})-([0-9]{4})";
-
-    if(date.matches(pattern))
-      return true;
-    else return false;
-  }
-
-  public String convertDateToString(Date date) {
-
-    String strFormat;
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    strFormat =  dateFormat.format(date);
-
-    return strFormat;
+    return false;
 
   }
 
@@ -103,6 +56,67 @@ public class GeneralUtility {
     return hotels.get(input).getType();
 
   }
+
+  public ArrayList<String> getRoomType(String hotel, String rooms, int day) {
+
+    HotelReader hreader = new HotelReader("l4Hotels.csv");
+    ArrayList<Hotel> hotels = hreader.getHotelInfo();
+    Scanner in = new Scanner(System.in);
+    int input;
+    double cost = 0;
+    int numRooms = Integer.parseInt(rooms);
+
+    for(int i = 0; i < hotels.size(); i++) {
+      if((hotel.equals(hotels.get(i).getType()))) {
+        roomTypes = hotels.get(i).getRoomTypes();
+      }
+    }
+    for(int y = 0; y < numRooms; y++) {
+      System.out.print("Please select a room type: ");
+      for(int j = 0; j < roomTypes.size(); j++) {
+        System.out.print("\n" + j + ". " + roomTypes.get(j).getRoomType());
+      }
+      System.out.print("\nPlease enter your selection: ");
+      input = in.nextInt();
+      roomList.add(roomTypes.get(input).getRoomType());
+
+    }
+    return roomList;
+  }
+
+  public double getRoomCosts(int day, int numNights) {
+
+    double cost = 0, totalCost = 0;
+    ArrayList<Room> rooms = new ArrayList<Room>();
+    String roomType;
+
+    for(int i = 0; i < roomList.size(); i++) {
+      for(int j = 0; j < roomTypes.size(); j++) {
+        if(roomList.get(i).equals(roomTypes.get(j).getRoomType())) {
+          rooms = roomTypes.get(j).getRooms();
+          for(int z = 0; z < rooms.size(); z++) {
+            cost = getIndividualRoomCost(rooms.get(z).getRates(), day, numNights);
+            totalCost += cost;
+          }
+        }
+      }
+    }
+
+    return totalCost;
+  }
+
+  private double getIndividualRoomCost(double[] rates, int day, int numNights) {
+
+    double cost = 0;
+
+    for(int i = 0; i < numNights; i++) {
+      cost += rates[day];
+    }
+
+    return cost;
+
+  }
+
 
   public String getType() {
 

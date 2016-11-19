@@ -28,7 +28,7 @@ public class ReservationReader {
 
   }
 
-  private ArrayList<Reservation> readIn(String fileName) {
+  public ArrayList<Reservation> readIn(String fileName) {
 
     ArrayList<Reservation> info = new ArrayList<Reservation>();
 
@@ -38,10 +38,14 @@ public class ReservationReader {
       Scanner fileIn = new Scanner(reservationFile);
 
       String [] lineSplit;
+      ArrayList<String> roomTypes = new ArrayList<String>();
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
-        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6], lineSplit[7]));
+        for(int i = 8; i < lineSplit.length; i++) {
+          roomTypes.add(lineSplit[i]);
+        }
+        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6], lineSplit[7], roomTypes));
       }
     }
     catch(FileNotFoundException e) {
@@ -63,6 +67,7 @@ public class ReservationReader {
       File cancellations = new File("CancellationInfo.csv");
       File tmp = File.createTempFile("tmp", "");
 
+      ArrayList<String> roomTypes = new ArrayList<String>();
 
       Scanner fileIn = new Scanner(reservations);
 
@@ -73,12 +78,15 @@ public class ReservationReader {
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
+        for(int i = 8; i < lineSplit.length; i++) {
+          roomTypes.add(lineSplit[i]);
+        }
         if(!lineSplit[0].equals(number)) {
-          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[6]);
+          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
           tempWriter.newLine();
         }
         else {
-          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]+"," + cancelDate);
+          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
           bufferedWriter.newLine();
         }
       }
@@ -125,6 +133,10 @@ public class ReservationReader {
     catch(Exception e) {
       e.printStackTrace();
     }
+
+  }
+
+  public void applyDiscount(String number) {
 
   }
 

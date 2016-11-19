@@ -5,19 +5,20 @@ import java.util.Calendar;
 public class UserAction {
 
   private GeneralUtility utility = new GeneralUtility();
+  private DateUtility dateutility = new DateUtility();
 
   public void purgeSystem() {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
-    String currentDate = utility.convertDateToString(date);
+    String currentDate = dateutility.convertDateToString(date);
     String index;
     double days;
     Date reservationDate;
     ArrayList<Reservation> reservationInfo = reader.getReservationInfo();
 
     for(int i = 1; i < reservationInfo.size(); i++) {
-      reservationDate = utility.convertStringToDate(reservationInfo.get(i).getDate());
+      reservationDate = dateutility.convertStringToDate(reservationInfo.get(i).getDate());
       days = ((date.getTime() - reservationDate.getTime()) / (1000 * 60 * 60 * 24));
       if(days > 31) {
         reader.purgeReservations(i);
@@ -32,7 +33,7 @@ public class UserAction {
 
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = utility.convertDateToString(date);
+    String stringDate = dateutility.convertDateToString(date);
     boolean matchesDesired = true;
 
     String number = utility.checkNumber(matchesDesired);
@@ -46,7 +47,7 @@ public class UserAction {
     CheckOutWriter checkOutWriter = new CheckOutWriter("CheckOuts.csv");
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = utility.convertDateToString(date);
+    String stringDate = dateutility.convertDateToString(date);
     boolean matchesDesired = true;
 
     String number = utility.checkNumber(matchesDesired);
@@ -58,70 +59,88 @@ public class UserAction {
 
   public void makeReservation() {
 
+    ArrayList<String> toBeWritten = new ArrayList<String>();
     Reservation newReservation;
     ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
-    String stringDate;// = utility.convertDateToString(date);
-    String choice, name, nights, rooms, deposit;
+    ArrayList<String> roomTypes;
+    String stringDate, choice, name, nights, rooms, deposit;
     Scanner in = new Scanner(System.in);
     boolean matchesDesired = true;
-    int input;
-
-    String hotel = utility.getHotel();
-
-    String type = utility.getType();
 
     String number = utility.checkNumber(matchesDesired);
+    toBeWritten.add(number);
+
+    String hotel = utility.getHotel();
+    toBeWritten.add(hotel);
+
+    String bookingType = utility.getType();
+    toBeWritten.add(bookingType);
 
     System.out.print("Enter your name: ");
     name = in.nextLine();
+    toBeWritten.add(name);
 
     System.out.print("Enter start date of reservation(dd-MM-yyyy): ");
     stringDate = in.nextLine();
 
-    while(!utility.validateDate(stringDate)) {
+    while(!dateutility.validateDate(stringDate)) {
       System.out.print("Invalid date format, try again: ");
       stringDate = in.nextLine();
     }
 
-    Date date = utility.convertStringToDate(stringDate);
+    Date date = dateutility.convertStringToDate(stringDate);
+    int day = dateutility.getDayOfWeek(date);
 
-    while(utility.checkIfBefore(date)) {
+    while(dateutility.checkIfBefore(date)) {
       System.out.print("Date must be after current date, try again: ");
       stringDate = in.nextLine();
-      date = utility.convertStringToDate(stringDate);
+      date = dateutility.convertStringToDate(stringDate);
     }
+    toBeWritten.add(stringDate);
 
     System.out.print("Enter number of nights: ");
     nights = in.nextLine();
+    toBeWritten.add(nights);
 
     System.out.print("Enter number of rooms: ");
     rooms = in.nextLine();
+    toBeWritten.add(rooms);
 
     System.out.print("Enter the deposit: ");
     deposit = in.nextLine();
+    toBeWritten.add(deposit);
 
-    newReservation = new Reservation(number, hotel, type, name, nights, rooms, deposit, stringDate);
-    writer.write(number, hotel, type, name, nights, rooms, deposit, stringDate);
+    roomTypes = utility.getRoomType(hotel, rooms, day);
+
+    String totalCost = Double.toString(utility.getRoomCosts(day, Integer.parseInt(nights)));
+    toBeWritten.add(totalCost);
+
+    for(int i = 0; i < roomTypes.size(); i++) {
+      toBeWritten.add(roomTypes.get(i));
+    }
+
+    //newReservation = new Reservation(number, hotel, bookingType, name, nights, rooms, deposit, stringDate,rooms);
+    writer.write(toBeWritten);
   }
 
   public void makeCancellation() {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
-    String stringDate = utility.convertDateToString(date);
+    String stringDate = dateutility.convertDateToString(date);
     String choice, name, nights, rooms, deposit;
     Scanner in = new Scanner(System.in);
     boolean matchesDesired = true;
 
     String number = utility.checkNumber(matchesDesired);
 
-    Date reservationDate = utility.convertStringToDate(reader.getDate(number));
+    Date reservationDate = dateutility.convertStringToDate(reader.getDate(number));
     double hours = (date.getTime() - reservationDate.getTime()) / 1000 / 60 / 60;
 
     if(reader.checkType(number).equals("advanced")) {
       System.out.print("Advanced purchase reservations are non-refundable.");
     }
-    
+
     if(hours < 48) {
       reader.cancelReservation (number, stringDate);
     }
@@ -130,17 +149,19 @@ public class UserAction {
     }
   }
 
-}
+  public void applyDiscount() {
 
-public void applyDiscount() {
+    boolean matchesDesired = true;
+    String number = utility.checkNumber(matchesDesired);
 
-  System.out.print("Discount selected.");
+    if(reader.checkType(number).equals("advanced"))
+      reader.applyDiscount(number);
 
-}
+  }
 
-public void getDataAnalysis() {
+  public void getDataAnalysis() {
 
-  System.out.print("Data analysis selected.");
+    System.out.print("Data analysis selected.");
 
-}
+  }
 }

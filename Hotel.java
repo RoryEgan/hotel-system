@@ -16,7 +16,7 @@ public class Hotel {
 
   }
 
-  public ArrayList<Room> getRoomTypes(ArrayList<Room> roomTypes) {
+  public ArrayList<RoomType> getRoomTypes() {
 
     return roomTypes;
 
