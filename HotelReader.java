@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+
+/**
+ * Reader Class for hotels within the l4hotels file
+ */
 public class HotelReader {
 
   private String fileName;
@@ -22,6 +26,10 @@ public class HotelReader {
 
   }
 
+/**
+ * Method to read in from the file
+ * @param fileName name of the file to be read in
+ */
   private void readIn(String fileName) {
 
     try {
@@ -52,6 +60,9 @@ public class HotelReader {
 
   }
 
+/**
+ * Method to get the costs of a room type
+ */
   private double[] getRoomCosts(String [] lineSplit) {
 
     double [] roomCosts = new double[7];
@@ -62,6 +73,11 @@ public class HotelReader {
 
   }
 
+/**
+ * Method to read in from the file and return a string arraylist
+ * @param  fileIn scanner for the file
+ * @return        arraylist of strings that have been read in
+ */
   private ArrayList<String> getInfo(Scanner fileIn) {
 
     ArrayList<String> fileInfo = new ArrayList<String>();

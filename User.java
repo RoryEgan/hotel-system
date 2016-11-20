@@ -1,3 +1,6 @@
+/**
+ * Class to define a user and its attributes.
+ */
 public class User {
 
   private String id;

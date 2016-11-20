@@ -1,3 +1,6 @@
+/**
+ * Class to define a room.
+ */
 public class Room {
 
 

@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+
+/**
+ * Class to read in info from the user info file.
+ */
 public class UserReader {
 
   private String fileName;
@@ -26,6 +30,11 @@ public class UserReader {
 
   }
 
+/**
+ * Method to read in an arraylist of users from the file
+ * @param  fileName string of the file name to be read in from
+ * @return          arraylist of users read in from the file
+ */
   private ArrayList<User> readIn(String fileName) {
 
     ArrayList<User> info = new ArrayList<User>();
@@ -53,6 +62,11 @@ public class UserReader {
 
   }
 
+/**
+ * Method to check an id against those of the users read in from the file.
+ * @param  id string of the id to be checked
+ * @return    position of the number in the user arraylist
+ */
   public int checkId(String id) {
 
     int position = -1;

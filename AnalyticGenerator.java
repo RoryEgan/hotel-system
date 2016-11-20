@@ -7,8 +7,20 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 
+/**
+ * Class to generate analytical information into different files based on hotel
+ * type and date range required.
+ */
 public class AnalyticGenerator {
 
+  /**
+   * Method to determine the end date of the analytics based on start date and desired
+   * weekly/monthly/daily range as specified by the user.
+   * @param  hotel string
+   * @param  the start date of the analytics
+   * @param  the interval type (month/week/day)
+   * @param  the number of intervals of the desired type
+   */
   public void generateAnalytics(String hotel, Date startDate, String interval, int numIntervals) {
 
     DateUtility dateutility = new DateUtility();
@@ -40,6 +52,14 @@ public class AnalyticGenerator {
     outputInfo(hotel, startDate, endDate, analytics);
 
   }
+
+  /**
+   * Method to output the information within the desired parameters to the file.
+   * @param  hotel string
+   * @param  start date of the analytics
+   * @param  end date of the analytics
+   * @param  analytics file the information is to be output to
+   */
 
   public void outputInfo(String hotel, Date startDate, Date endDate, File analytics) {
 
@@ -86,6 +106,11 @@ public class AnalyticGenerator {
   }
 
 
+  /**
+   * Method to create a new file named after the hotel, date and desired range
+   * @param  fileName name of the file to be created
+   * @return          created file
+   */
   private File createFile(String fileName) {
 
     try {

@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 /**
- *
+ * UserAction class has the responsibility for providing the user with all the different
+ * tasks they can perform.
  */
 public class UserAction {
 
@@ -11,7 +12,7 @@ public class UserAction {
   private DateUtility dateutility = new DateUtility();
 
   /**
-   * [purgeSystem description]
+   * Method to clear reservations file of all bookings over a month old
    */
   public void purgeSystem() {
 
@@ -37,7 +38,7 @@ public class UserAction {
   }
 
   /**
-   * [checkIn description]
+   * Method to write a call the checkin writer class with a desired reservation number.
    */
 
   public void checkIn() {
@@ -54,7 +55,7 @@ public class UserAction {
   }
 
   /**
-   * [checkOut description]
+   * Method to call the check out writer class with a reservation number.
    */
 
   public void checkOut() {
@@ -74,7 +75,7 @@ public class UserAction {
   }
 
   /**
-   * [makeReservation description]
+   * Method to call the reservation writer class with a range of info taken from the user.
    */
 
   public void makeReservation() {
@@ -144,7 +145,7 @@ public class UserAction {
   }
 
   /**
-   * [makeCancellation description]
+   * Method to call the cancellation writer class with a reservation number.
    */
 
   public void makeCancellation() {
@@ -183,7 +184,7 @@ public class UserAction {
   }
 
   /**
-   * [getDataAnalysis description]
+   * Method to call the data analysis class with a start date, hotel, interval and number of intervals.
    */
 
   public void getDataAnalysis() {
@@ -207,7 +208,7 @@ public class UserAction {
     Date startDate = dateutility.convertStringToDate(stringDateStart);
 
     System.out.println("Please enter desired time interval: ");
-    System.out.println("1. weekly intervals \n2. monthly intervals \n3. daily intervals");
+    System.out.print("\n1. weekly intervals \n2. monthly intervals \n3. daily intervals");
     System.out.print("\nPlease enter your selection: ");
     int input = in.nextInt();
     if(input == 1) interval = "weekly";

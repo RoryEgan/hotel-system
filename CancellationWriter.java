@@ -10,6 +10,9 @@ public class CancellationWriter {
   private ArrayList<Reservation> reservationInfo;
   private ReservationReader reader = new ReservationReader("ReservationInfo.csv");
 
+/**
+ * Initialises the writer with the filename that was passed
+ */
   CancellationWriter(String fileName) {
 
     this.fileName = fileName;
@@ -28,6 +31,13 @@ public class CancellationWriter {
     return reservationInfo;
 
   }
+
+  /**
+   * Method to delete a specific reservation from the reservations file and
+   * write it into cancellations.
+   * @param  number of reservation
+   * @param  date of cancelling
+   */
 
   public void cancelReservation(String number, String cancelDate) {
 
@@ -87,6 +97,11 @@ public class CancellationWriter {
     }
   }
 
+  /**
+   * Method to check the type of reservation
+   * @param  number reservation number
+   * @return        type of reservation
+   */
   public String checkType(String number) {
 
     String type="";
@@ -99,6 +114,12 @@ public class CancellationWriter {
 
     return type;
   }
+
+  /**
+   * Method to check position of number within reservations
+   * @param  number reservation number
+   * @return        position of reservation with file
+   */
 
   public int checkNumber(String number) {
 

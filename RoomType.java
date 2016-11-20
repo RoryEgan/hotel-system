@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+
+/**
+ * Class to define a room type for a hotel.
+ */
 public class RoomType {
 
   private String type;
@@ -27,6 +31,6 @@ public class RoomType {
   public ArrayList<Room> getRooms() {
 
     return rooms;
-    
+
   }
 }

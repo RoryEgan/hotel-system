@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+/**
+ * Hotel Class, contains hotel type and and arraylist of roomtypes
+ */
 public class Hotel {
 
   private String type;

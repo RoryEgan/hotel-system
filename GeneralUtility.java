@@ -1,11 +1,20 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+
+/**
+ * A general utility class to carry out a range of minor tasks.
+ */
 public class GeneralUtility {
 
   private String numeric = "\\d+";
   private ArrayList<RoomType> roomTypes = new ArrayList<RoomType>();
   private ArrayList<String> roomList = new ArrayList<String>();
 
+  /**
+   * A method to check that a string is numeric.
+   * @param  number string to be checked
+   * @return        boolean dependent on result of checking
+   */
   public boolean validateNumeric(String number) {
 
     if(number.matches(numeric))
@@ -15,6 +24,12 @@ public class GeneralUtility {
 
   }
 
+  /**
+   * A method to check if a reservation number exists
+   * @param  matchesDesired boolean that states whether matches being present will
+   * return an error or not
+   * @return               string of the number to be checked
+   */
   public String checkNumber(boolean matchesDesired) {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
@@ -46,6 +61,10 @@ public class GeneralUtility {
 
   }
 
+  /**
+   * A method to get the user to select a hotel.
+   * @return string of the hotel that the user selected
+   */
   public String getHotel() {
 
     HotelReader hreader = new HotelReader("l4Hotels.csv");
@@ -62,6 +81,14 @@ public class GeneralUtility {
     return hotels.get(input).getType();
 
   }
+
+  /**
+   * A method to get the user to select desired room types for a reservation.
+   * @param   hotel to be used
+   * @param   rooms in the hotel
+   * @param   day of the week
+   * @return  arraylist of rooms selected by the user
+   */
 
   public ArrayList<String> getRoomType(String hotel, String rooms, int day) {
 
@@ -90,6 +117,13 @@ public class GeneralUtility {
     return roomList;
   }
 
+  /**
+   * A method to get the room costs based on the users selection of rooms.
+   * @param   day of the week the reservation starts on
+   * @param   number of nights the reservation will be
+   * @return  cost of reserving all the desired rooms
+   */
+
   public double getRoomCosts(int day, int numNights) {
 
     double cost = 0, totalCost = 0;
@@ -111,6 +145,13 @@ public class GeneralUtility {
     return totalCost;
   }
 
+/**
+ * Method to get the cost of a particular room type
+ * @param   daily rates for type of room
+ * @param   day of the week the reservation starts on
+ * @param   number of nights the reservation will take
+ * @return  cost of individual room type
+ */
   private double getIndividualRoomCost(double[] rates, int day, int numNights) {
 
     double cost = 0;
@@ -124,6 +165,10 @@ public class GeneralUtility {
   }
 
 
+  /**
+   * Method to get the booking type from the user.
+   * @return string of the type of booking required
+   */
   public String getType() {
 
     Scanner in = new Scanner(System.in);

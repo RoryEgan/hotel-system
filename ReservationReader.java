@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+
+/**
+ * A Class to read in from the reservtions file
+ */
 public class ReservationReader {
 
   private String fileName;
@@ -28,6 +32,11 @@ public class ReservationReader {
 
   }
 
+/**
+ * Method to read in from the file
+ * @param  fileName string of the file name to be read in
+ * @return          arraylist of reservations that have been read in
+ */
   public ArrayList<Reservation> readIn(String fileName) {
 
     ArrayList<Reservation> info = new ArrayList<Reservation>();
@@ -59,6 +68,10 @@ public class ReservationReader {
 
   }
 
+/**
+ * Method to purge reservations from the fle that are over a month old
+ * @param number number of the reservaton to be purged
+ */
   public void purgeReservation(String number) {
 
     try {
@@ -101,6 +114,11 @@ public class ReservationReader {
 
   }
 
+/**
+ * Method to apppy a 5% discount to advanced purchases
+ * @param  number number of reservation to be discounted
+ * @return        double of the new amount to be charged
+ */
   public double applyDiscount(String number) {
 
     int position = -1;
@@ -115,6 +133,11 @@ public class ReservationReader {
 
   }
 
+/**
+ * Method to get the date of a particular reservation
+ * @param  number number of the reservation the date is needed from
+ * @return        string of the date
+ */
   public String getDate(String number) {
 
     String date="";
@@ -128,6 +151,11 @@ public class ReservationReader {
     return date;
   }
 
+/**
+ * Method to check the type of a given reservation.
+ * @param  number number of the reservaton to be checked
+ * @return        string of the type the reservation is
+ */
   public String checkType(String number) {
 
     String type="";
@@ -141,6 +169,11 @@ public class ReservationReader {
     return type;
   }
 
+/**
+ * Method to check a position within the file
+ * @param  number number of reservation to be checked
+ * @return        int of the posiition
+ */
   public int checkNumber(String number) {
 
     int position = -1;
@@ -152,6 +185,11 @@ public class ReservationReader {
     return position;
   }
 
+/**
+ * Method to get the final cost of a reservation
+ * @param  number number to get the cost of
+ * @return        final cost of the desired reservation
+ */
   public double getBill(String number) {
 
     int position = -1;

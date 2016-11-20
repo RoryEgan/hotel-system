@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+
+/**
+ * Class to write a reservation to the file
+ */
 public class ReservationWriter {
 
   private String fileName;
@@ -14,6 +18,10 @@ public class ReservationWriter {
 
   }
 
+/**
+ * Method to handle the writing of the reservation.
+ * @param toBeWritten arraylist of strings that contains the reservation info
+ */
   public void write(ArrayList<String> toBeWritten) {
 
     try {

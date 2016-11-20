@@ -5,13 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+
+/**
+ * Class to write a reservation to the checkins file.
+ */
 public class CheckInWriter {
 
   private String fileName;
 
-  /**
-   *
-   */
   CheckInWriter(String fileName) {
 
     this.fileName = fileName;
@@ -25,9 +26,9 @@ public class CheckInWriter {
   }
 
 /**
- * [write description]
- * @param  [description]
- * @param  [description]
+ * Method to write a particular reservation to the checkin file
+ * @param  number of reservation to be written
+ * @param  current date of checkin
  */
 
   public void write(String number, String currentDate) {
@@ -67,6 +68,10 @@ public class CheckInWriter {
     }
   }
 
+/**
+ * Method to delete a line from the checkins.
+ * @param number number of reservation to be deleted
+ */
   public void deleteLine(String number) {
 
     try {

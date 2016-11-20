@@ -1,9 +1,15 @@
 import java.util.Scanner;
+/**
+ * Class to handle Menu interactions with the end user.
+ */
 public class Menu {
 
   private UserAction actions = new UserAction();
   private Scanner in = new Scanner(System.in);
 
+  /**
+   * Main menu class to start the login process.
+   */
   public void mainMenu() {
 
     System.out.print("\n****************************" +
@@ -13,6 +19,9 @@ public class Menu {
     getUser();
   }
 
+  /**
+   * Calls the method to get the current user and user type.
+   */
   public void getUser() {
 
     User currentUser = getCurrentUser();
@@ -22,6 +31,10 @@ public class Menu {
 
   }
 
+  /**
+   * Initialises a user reader object and calls the check user id class
+   * @return user object
+   */
   public User getCurrentUser() {
 
     UserReader reader = new UserReader("UserDetails.csv");
@@ -29,6 +42,12 @@ public class Menu {
     return checkUserId(reader);
 
   }
+
+  /**
+   * Checks the user given id aginst ids read in by the user reader.
+   * @param  reader user reader to read in from the user info file
+   * @return        a user object
+   */
 
   public User checkUserId(UserReader reader) {
 
@@ -45,6 +64,13 @@ public class Menu {
 
     return checkUserPassword(index, reader);
   }
+
+  /**
+   * Checks the users password based on id
+   * @param   position in the users file to check password
+   * @param   reader to read in from user info file.
+   * @return  a user object
+   */
 
   public User checkUserPassword(int index, UserReader reader) {
 
@@ -66,6 +92,13 @@ public class Menu {
 
   }
 
+  /**
+   * Checks the user type based on id
+   * @param   position in the user info file
+   * @param   reader to read in from the user info file
+   * @return  user type
+   */
+
   public String checkUserType(int index, UserReader reader) {
 
     User currentUser = reader.getUserInfo().get(index);
@@ -73,6 +106,12 @@ public class Menu {
     return currentUser.getUserType();
 
   }
+
+  /**
+   * Method to get what action to perform from the user and implement that action through
+   * the user action class.
+   * @param type user type
+   */
 
   public void userMenu(String type) {
 

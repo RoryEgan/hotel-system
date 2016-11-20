@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+
+/**
+ * Class to write a reservation in the checkins file to the checkouts file.
+ */
 public class CheckOutWriter {
 
   private String fileName;
@@ -21,6 +25,11 @@ public class CheckOutWriter {
 
   }
 
+  /**
+   * Method to write to the checkouts file
+   * @param  number of reservation to be written
+   * @param  current date of checkout
+   */
   public void write(String number, String currentDate) {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
