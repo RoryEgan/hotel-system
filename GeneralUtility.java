@@ -29,6 +29,12 @@ public class GeneralUtility {
       number = in.nextLine();
     }
     if(!matchesDesired) {
+      while(((index = reader.checkNumber(number)) != -1)) {
+        System.out.print("Number is invalid. Please try again: ");
+        number = in.nextLine();
+      }
+    }
+    else if(matchesDesired) {
       while(((index = reader.checkNumber(number)) == -1)) {
         System.out.print("Number is invalid. Please try again: ");
         number = in.nextLine();

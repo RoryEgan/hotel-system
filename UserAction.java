@@ -13,15 +13,16 @@ public class UserAction {
     Date date = Calendar.getInstance().getTime();
     String currentDate = dateutility.convertDateToString(date);
     String index;
-    double days;
     Date reservationDate;
     ArrayList<Reservation> reservationInfo = reader.getReservationInfo();
 
     for(int i = 1; i < reservationInfo.size(); i++) {
       reservationDate = dateutility.convertStringToDate(reservationInfo.get(i).getDate());
-      days = ((date.getTime() - reservationDate.getTime()) / (1000 * 60 * 60 * 24));
+      long secs = (reservationDate.getTime() - date.getTime()) / 1000;
+      long hours = secs / 3600;
+      long days = hours / 24;
       if(days > 31) {
-        reader.purgeReservations(i);
+        reader.purgeReservation(reservationInfo.get(i).getNumber());
       }
     }
 
@@ -46,6 +47,7 @@ public class UserAction {
 
     CheckOutWriter checkOutWriter = new CheckOutWriter("CheckOuts.csv");
     CheckInWriter checkInWriter = new CheckInWriter("CheckIns.csv");
+    ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     Date date = Calendar.getInstance().getTime();
     String stringDate = dateutility.convertDateToString(date);
     boolean matchesDesired = true;
@@ -60,12 +62,11 @@ public class UserAction {
   public void makeReservation() {
 
     ArrayList<String> toBeWritten = new ArrayList<String>();
-    Reservation newReservation;
     ReservationWriter writer = new ReservationWriter("ReservationInfo.csv");
     ArrayList<String> roomTypes;
     String stringDate, choice, name, nights, rooms, deposit;
     Scanner in = new Scanner(System.in);
-    boolean matchesDesired = true;
+    boolean matchesDesired = false;
 
     String number = utility.checkNumber(matchesDesired);
     toBeWritten.add(number);
@@ -119,13 +120,15 @@ public class UserAction {
       toBeWritten.add(roomTypes.get(i));
     }
 
-    //newReservation = new Reservation(number, hotel, bookingType, name, nights, rooms, deposit, stringDate,rooms);
     writer.write(toBeWritten);
+    toBeWritten.clear();
+    roomTypes.clear();
   }
 
   public void makeCancellation() {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
+    CancellationWriter writer = new CancellationWriter("CancellationInfo.csv");
     Date date = Calendar.getInstance().getTime();
     String stringDate = dateutility.convertDateToString(date);
     String choice, name, nights, rooms, deposit;
@@ -135,33 +138,61 @@ public class UserAction {
     String number = utility.checkNumber(matchesDesired);
 
     Date reservationDate = dateutility.convertStringToDate(reader.getDate(number));
-    double hours = (date.getTime() - reservationDate.getTime()) / 1000 / 60 / 60;
 
+    long secs = (reservationDate.getTime() - date.getTime()) / 1000;
+    long hours = secs / 3600;
+
+    double bill = reader.getBill(number);
     if(reader.checkType(number).equals("advanced")) {
-      System.out.print("Advanced purchase reservations are non-refundable.");
+      System.out.println("\nAdvanced purchase reservations are non-refundable!" +
+      "\nCustomer should be charged full amount which is: " + bill);
+      writer.cancelReservation (number, stringDate);
     }
-
-    if(hours < 48) {
-      reader.cancelReservation (number, stringDate);
+    else  {
+      if(hours > 48) {
+        writer.cancelReservation (number, stringDate);
+      }
+      else {
+        System.out.println("\nReservations cancelled less than 48 hours in advance are non-refundable!" +
+        "\nCustomer should be charged full amount which is: " + bill);
+        writer.cancelReservation (number, stringDate);
+      }
     }
-    else {
-      System.out.print("Reservations cannot be cancelled less than 48 hours before arrival.");
-    }
-  }
-
-  public void applyDiscount() {
-
-    boolean matchesDesired = true;
-    String number = utility.checkNumber(matchesDesired);
-
-    if(reader.checkType(number).equals("advanced"))
-      reader.applyDiscount(number);
-
   }
 
   public void getDataAnalysis() {
 
+    String stringDateStart, interval = "";
+    Scanner in = new Scanner(System.in);
+
     System.out.print("Data analysis selected.");
+    AnalyticGenerator analytics  = new AnalyticGenerator();
+
+    System.out.println("Please select the hotel you wish to display analytics for: ");
+    String hotel = utility.getHotel();
+
+    System.out.print("Please enter a start date: ");
+    stringDateStart = in.nextLine();
+    while(!dateutility.validateDate(stringDateStart)) {
+      System.out.print("Invalid date format, try again: ");
+      stringDateStart = in.nextLine();
+    }
+
+    Date startDate = dateutility.convertStringToDate(stringDateStart);
+
+    System.out.println("Please enter desired time interval: ");
+    System.out.println("1. weekly intervals \n2. monthly intervals \n3. daily intervals");
+    System.out.println("\nPlease enter your selection: ");
+    int input = in.nextInt();
+    if(input == 1) interval = "weekly";
+    else if(input == 2) interval = "monthly";
+    else if(input == 3) interval = "daily";
+    else System.out.println("Invalid input.");
+
+    System.out.print("How many intervals would you like displayed: ");
+    int numIntervals = in.nextInt();
+
+    analytics.generateAnalytics(hotel, startDate, interval, numIntervals);
 
   }
 }

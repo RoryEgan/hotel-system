@@ -55,7 +55,7 @@ public class Menu {
     password = in.nextLine();
 
     while(!password.equals(currentUser.getPassword())) {
-      System.out.print("\nInvalid password. Please try again: ");
+      System.out.print("Invalid password. Please try again: ");
       password = in.nextLine();
     }
 
@@ -83,10 +83,13 @@ public class Menu {
     if(type.equals("hotel desk employee") || type.equals("supervisor"))
     System.out.print("\n4. check a customer in \n5. check a customer out");
     if(type.equals("supervisor"))
-    System.out.print("\n6. apply a booking discount \n7. get data analysis \n8. purge old reservations");
+    System.out.print("\n6. get data analysis \n7. purge old reservations");
     System.out.print("\nPlease enter your selection: ");
     input = in.nextLine();
 
+    boolean complete = false;
+
+    while(!complete) {
     if(input.equals("1")) {
       System.out.print("Returning to main menu...");
       mainMenu();
@@ -108,19 +111,19 @@ public class Menu {
       userMenu(type);
     }
     else if(input.equals("6") && type.equals("supervisor")) {
-      actions.applyDiscount();
-      userMenu(type);
-    }
-    else if(input.equals("7") && type.equals("supervisor")) {
       actions.getDataAnalysis();
       userMenu(type);
     }
-    else if(input.equals("8") && type.equals("supervisor")) {
+    else if(input.equals("7") && type.equals("supervisor")) {
       actions.purgeSystem();
       userMenu(type);
     }
-    else
-    System.out.print("Invalid input.");
+    else {
+      System.out.print("Invalid input, please try again: ");
+      input = in.nextLine();
+    }
+  }
+
   }
 
 }

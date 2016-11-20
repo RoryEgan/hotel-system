@@ -42,10 +42,10 @@ public class ReservationReader {
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
-        for(int i = 8; i < lineSplit.length; i++) {
+        for(int i = 10; i < lineSplit.length; i++) {
           roomTypes.add(lineSplit[i]);
         }
-        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6], lineSplit[7], roomTypes));
+        info.add(new Reservation(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5], lineSplit[6], lineSplit[7], lineSplit[8], roomTypes));
       }
     }
     catch(FileNotFoundException e) {
@@ -59,73 +59,39 @@ public class ReservationReader {
 
   }
 
-  public void cancelReservation(String number, String cancelDate) {
+  public void purgeReservation(String number) {
 
     try {
 
-      File reservations = new File(fileName);
-      File cancellations = new File("CancellationInfo.csv");
+      File reservations = new File("ReservationInfo.csv");
       File tmp = File.createTempFile("tmp", "");
-
-      ArrayList<String> roomTypes = new ArrayList<String>();
 
       Scanner fileIn = new Scanner(reservations);
 
-      BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(cancellations, true));
       BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tmp, true));
 
+      ArrayList<String> resInfo = new ArrayList<String>();
       String [] lineSplit;
 
       while(fileIn.hasNext()) {
+
         lineSplit = fileIn.nextLine().split(",");
-        for(int i = 8; i < lineSplit.length; i++) {
-          roomTypes.add(lineSplit[i]);
-        }
+
         if(!lineSplit[0].equals(number)) {
-          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
+          for(int j = 0; j < lineSplit.length; j++) {
+            resInfo.add(lineSplit[j]);
+          }
+          for(int k = 0; k < resInfo.size(); k++) {
+            tempWriter.write(resInfo.get(k) + ",");
+          }
           tempWriter.newLine();
-        }
-        else {
-          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
-          bufferedWriter.newLine();
+          resInfo.clear();
         }
       }
-      tempWriter.close();
-      bufferedWriter.close();
       if(reservations.delete())
       tmp.renameTo(reservations);
-    }
-    catch(FileNotFoundException e) {
-      System.out.println("Error: File could not be found.");
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void purgeReservations(int number) {
-
-    try {
-
-      File reservations = new File(fileName);
-      File tmp = File.createTempFile("tmp", "");
-
-      Scanner fileIn = new Scanner(reservations);
-      BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tmp, true));
-      String [] lineSplit;
-      int index = 1;
-
-      while(fileIn.hasNext() && index < reservationInfo.size()) {
-        lineSplit = fileIn.nextLine().split(",");
-        if(lineSplit[0] != reservationInfo.get(index).getNumber()) {
-          tempWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]);
-          tempWriter.newLine();
-          index++;
-        }
-      }
       tempWriter.close();
-      if(reservations.delete())
-      tmp.renameTo(reservations);
+      System.out.println("\nSystem is up to date.");
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");
@@ -136,7 +102,17 @@ public class ReservationReader {
 
   }
 
-  public void applyDiscount(String number) {
+  public double applyDiscount(String number) {
+
+    int position = -1;
+    double cost = 0;
+    for(int i = 0; i < reservationInfo.size() && position == -1; i++) {
+      if(reservationInfo.get(i).getNumber().equals(number)) {
+        cost = Double.parseDouble(reservationInfo.get(i).getCost());
+        cost = cost * 0.95;
+      }
+    }
+    return cost;
 
   }
 
@@ -175,5 +151,18 @@ public class ReservationReader {
       }
     }
     return position;
+  }
+
+  public double getBill(String number) {
+
+    int position = -1;
+    double bill = 0;
+    for(int i = 0; i < reservationInfo.size() && position == -1; i++) {
+      if(reservationInfo.get(i).getNumber().equals(number)) {
+        bill = Double.parseDouble(reservationInfo.get(i).getCost()) - Double.parseDouble(reservationInfo.get(i).getDeposit());
+      }
+    }
+    return bill;
+
   }
 }

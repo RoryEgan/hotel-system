@@ -23,6 +23,8 @@ public class CheckOutWriter {
 
   public void write(String number, String currentDate) {
 
+    ReservationReader reader = new ReservationReader("ReservationInfo.csv");
+
     try {
 
       File checkins = new File("CheckIns.csv");
@@ -30,17 +32,31 @@ public class CheckOutWriter {
       Scanner fileIn = new Scanner(checkins);
       BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(checkouts, true));
 
+      ArrayList<String> info = new ArrayList<String>();
       String [] lineSplit;
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
+
         if(lineSplit[0].equals(number)) {
-          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]+"," + lineSplit[8]+"," + currentDate);
+          for(int i = 0; i < lineSplit.length; i++) {
+            info.add(lineSplit[i]);
+          }
+          for(int z = 0; z < info.size(); z++) {
+            bufferedWriter.write(info.get(z) + ",");
+          }
           bufferedWriter.newLine();
-          System.out.println("Info saved.");
+          info.clear();
         }
       }
       bufferedWriter.close();
+      System.out.println("\nCheckout saved.");
+
+      double bill = reader.getBill(number);
+      if(reader.checkType(number).equals("advanced")) {
+        bill = reader.applyDiscount(number);
+      }
+      System.out.println("\nBill is: " + bill);
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");

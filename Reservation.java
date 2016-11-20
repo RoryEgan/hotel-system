@@ -48,6 +48,12 @@ public class Reservation {
   public String getCost() {
 
     return cost;
+
+  }
+
+  public String getDeposit() {
+
+    return deposit;
     
   }
 

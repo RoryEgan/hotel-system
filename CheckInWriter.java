@@ -30,17 +30,25 @@ public class CheckInWriter {
       Scanner fileIn = new Scanner(reservations);
       BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(checkins, true));
 
+      ArrayList<String> info = new ArrayList<String>();
       String [] lineSplit;
 
       while(fileIn.hasNext()) {
         lineSplit = fileIn.nextLine().split(",");
+
         if(lineSplit[0].equals(number)) {
-          bufferedWriter.write(lineSplit[0]+"," + lineSplit[1]+"," + lineSplit[2]+"," + lineSplit[3]+"," + lineSplit[4]+"," + lineSplit[5]+"," + lineSplit[6]+"," + lineSplit[7]+"," + currentDate);
+          for(int i = 0; i < lineSplit.length; i++) {
+            info.add(lineSplit[i]);
+          }
+          for(int z = 0; z < info.size(); z++) {
+            bufferedWriter.write(info.get(z) + ",");
+          }
           bufferedWriter.newLine();
-          System.out.println("\nInfo saved.");
+          info.clear();
         }
       }
       bufferedWriter.close();
+      System.out.println("\nCheckin saved.");
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");

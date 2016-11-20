@@ -25,6 +25,7 @@ public class ReservationWriter {
         bufferedWriter.write(toBeWritten.get(i) + ",");
       }
       bufferedWriter.newLine();
+      bufferedWriter.flush();
       bufferedWriter.close();
       System.out.println("\nReservation created.");
     }
