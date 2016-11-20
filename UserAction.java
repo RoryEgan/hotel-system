@@ -2,11 +2,17 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+/**
+ *
+ */
 public class UserAction {
 
   private GeneralUtility utility = new GeneralUtility();
   private DateUtility dateutility = new DateUtility();
 
+  /**
+   * [purgeSystem description]
+   */
   public void purgeSystem() {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
@@ -21,7 +27,7 @@ public class UserAction {
       long secs = (reservationDate.getTime() - date.getTime()) / 1000;
       long hours = secs / 3600;
       long days = hours / 24;
-      if(days > 31) {
+      if(days < 31 && reservationDate.before(date)) {
         reader.purgeReservation(reservationInfo.get(i).getNumber());
       }
     }
@@ -29,6 +35,10 @@ public class UserAction {
     System.out.println("\nSystem is up to date.");
 
   }
+
+  /**
+   * [checkIn description]
+   */
 
   public void checkIn() {
 
@@ -42,6 +52,10 @@ public class UserAction {
     checkInWriter.write(number, stringDate);
 
   }
+
+  /**
+   * [checkOut description]
+   */
 
   public void checkOut() {
 
@@ -58,6 +72,10 @@ public class UserAction {
     checkInWriter.deleteLine(number);
 
   }
+
+  /**
+   * [makeReservation description]
+   */
 
   public void makeReservation() {
 
@@ -125,6 +143,10 @@ public class UserAction {
     roomTypes.clear();
   }
 
+  /**
+   * [makeCancellation description]
+   */
+
   public void makeCancellation() {
 
     ReservationReader reader = new ReservationReader("ReservationInfo.csv");
@@ -160,6 +182,10 @@ public class UserAction {
     }
   }
 
+  /**
+   * [getDataAnalysis description]
+   */
+
   public void getDataAnalysis() {
 
     String stringDateStart, interval = "";
@@ -182,7 +208,7 @@ public class UserAction {
 
     System.out.println("Please enter desired time interval: ");
     System.out.println("1. weekly intervals \n2. monthly intervals \n3. daily intervals");
-    System.out.println("\nPlease enter your selection: ");
+    System.out.print("\nPlease enter your selection: ");
     int input = in.nextInt();
     if(input == 1) interval = "weekly";
     else if(input == 2) interval = "monthly";

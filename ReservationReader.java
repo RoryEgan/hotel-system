@@ -91,7 +91,6 @@ public class ReservationReader {
       if(reservations.delete())
       tmp.renameTo(reservations);
       tempWriter.close();
-      System.out.println("\nSystem is up to date.");
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");

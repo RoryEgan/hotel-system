@@ -9,6 +9,9 @@ public class CheckInWriter {
 
   private String fileName;
 
+  /**
+   *
+   */
   CheckInWriter(String fileName) {
 
     this.fileName = fileName;
@@ -20,6 +23,12 @@ public class CheckInWriter {
     return fileName;
 
   }
+
+/**
+ * [write description]
+ * @param  [description]
+ * @param  [description]
+ */
 
   public void write(String number, String currentDate) {
 

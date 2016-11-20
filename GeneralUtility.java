@@ -127,19 +127,24 @@ public class GeneralUtility {
   public String getType() {
 
     Scanner in = new Scanner(System.in);
-    int input;
-    String type = "";
+    boolean valid = false;
+    String input, type = "";
 
     System.out.print("Is this a Simple or Advanced purchase booking? \n1. Simple \n2. Advanced\nPlease enter: ");
-    input = in.nextInt();
-    if(input == 1) {
-      type = "simple";
-    }
-    else if(input == 2) {
-      type = "advanced";
-    }
-    else {
-      System.out.println("Invalid input.");
+    input = in.nextLine();
+    while(!valid) {
+      if(input.equals("1")) {
+        type = "simple";
+        valid = true;
+      }
+      else if(input.equals("2")) {
+        type = "advanced";
+        valid = true;
+      }
+      else {
+        System.out.println("Invalid input, try again: ");
+        input = in.nextLine();
+      }
     }
     return type;
   }

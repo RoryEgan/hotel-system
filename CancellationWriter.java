@@ -73,7 +73,9 @@ public class CancellationWriter {
       }
       if(reservations.delete())
       tmp.renameTo(reservations);
+      bufferedWriter.flush();
       bufferedWriter.close();
+      tempWriter.flush();
       tempWriter.close();
       System.out.println("\nCancellation completed.");
     }
