@@ -83,11 +83,9 @@ public class CancellationWriter {
       }
       if(reservations.delete())
       tmp.renameTo(reservations);
-      bufferedWriter.flush();
-      bufferedWriter.close();
-      tempWriter.flush();
-      tempWriter.close();
       System.out.println("\nCancellation completed.");
+      bufferedWriter.close();
+      tempWriter.close();
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");

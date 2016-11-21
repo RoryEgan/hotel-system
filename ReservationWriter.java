@@ -32,10 +32,9 @@ public class ReservationWriter {
       for(int i = 0; i < toBeWritten.size(); i++) {
         bufferedWriter.write(toBeWritten.get(i) + ",");
       }
-      bufferedWriter.newLine();
-      bufferedWriter.flush();
-      bufferedWriter.close();
       System.out.println("\nReservation created.");
+      bufferedWriter.newLine();
+      bufferedWriter.close();
     }
     catch(FileNotFoundException e) {
       System.out.println("Error: File could not be found.");

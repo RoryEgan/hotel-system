@@ -1,0 +1,7 @@
+Hotel Reservation System
+
+Classes compliled with command javac *.java
+
+System started with java HotelSystem
+
+The first screen will prompt the user to enter an id number. Users are predefned on a csv file detailing their id number, password and user type. Once a correct id and corresponding password have been entered the user wll have a range of options to carry out based on the priveleges of their user type. All reservations go to a reservations csv file and all cancellations go to a cancellation file. Once a reservation is checked in that reservation is written to the checkins file. It is maintained in the reservations as the rooms are still reserved. Once the reservation is checked out it is removed from these two files and placed in the checkouts file. The total amount due from the reservation is displayed on screen upon checkout. The data analytics option places all reservation that meet the given parameters info into a unique file that is created and named based on the parameters.

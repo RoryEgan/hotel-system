@@ -71,6 +71,7 @@ public class UserAction {
 
     checkOutWriter.write(number, stringDate);
     checkInWriter.deleteLine(number);
+    reader.deleteLine(number);
 
   }
 

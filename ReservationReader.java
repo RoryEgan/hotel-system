@@ -114,6 +114,51 @@ public class ReservationReader {
 
   }
 
+  /**
+   * Method to delete a line from the reservations.
+   * @param number number of reservation to be deleted
+   */
+    public void deleteLine(String number) {
+
+      try {
+
+        File reservations = new File(fileName);
+        File tmp = File.createTempFile("tmp", "");
+
+        Scanner fileIn = new Scanner(reservations);
+
+        BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tmp, true));
+
+        ArrayList<String> resInfo = new ArrayList<String>();
+        String [] lineSplit;
+
+        while(fileIn.hasNext()) {
+
+          lineSplit = fileIn.nextLine().split(",");
+
+          if(!lineSplit[0].equals(number)) {
+            for(int j = 0; j < lineSplit.length; j++) {
+              resInfo.add(lineSplit[j]);
+            }
+            for(int k = 0; k < resInfo.size(); k++) {
+              tempWriter.write(resInfo.get(k) + ",");
+            }
+            tempWriter.newLine();
+            resInfo.clear();
+          }
+        }
+        if(reservations.delete())
+        tmp.renameTo(reservations);
+        tempWriter.close();
+      }
+      catch(FileNotFoundException e) {
+        System.out.println("Error: File could not be found.");
+      }
+      catch(Exception e) {
+        e.printStackTrace();
+      }
+    }
+
 /**
  * Method to apppy a 5% discount to advanced purchases
  * @param  number number of reservation to be discounted

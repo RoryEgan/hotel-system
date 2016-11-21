@@ -24,7 +24,6 @@ public class AnalyticGenerator {
   public void generateAnalytics(String hotel, Date startDate, String interval, int numIntervals) {
 
     DateUtility dateutility = new DateUtility();
-    ReservationReader reader = new ReservationReader("ReservationInfo.csv");
     String stringDate = dateutility.convertDateToString(startDate);
     Date endDate;
 
@@ -65,11 +64,11 @@ public class AnalyticGenerator {
 
     try {
 
-      File reservations = new File("ReservationInfo.csv");
+      File checkouts = new File("CheckOuts.csv");
       Date date;
       DateUtility dateutility = new DateUtility();
 
-      Scanner fileIn = new Scanner(reservations);
+      Scanner fileIn = new Scanner(checkouts);
 
       BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(analytics, true));
 
